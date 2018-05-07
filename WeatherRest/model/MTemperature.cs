@@ -1,4 +1,5 @@
-﻿using Microsoft.SqlServer.Server;
+﻿using System.Data;
+using Microsoft.SqlServer.Server;
 
 namespace WeatherRest.model
 {
@@ -6,7 +7,7 @@ namespace WeatherRest.model
     /// The Temperature model class is used because of the database requiring it for using the HTTP requests.
     /// This means we'd not be able to call for temperatures from the database unless we specify the model class.
     /// </summary>
-    public class Temperature
+    public class MTemperature
     {
         /// <summary>
         /// Instance fields for the class
@@ -14,11 +15,13 @@ namespace WeatherRest.model
         /// Time = The time the temperature was measured
         /// Place = The location from where the measurement took place.
         /// </summary>
-        private string _temperature;
+        /// 
+        private int _id;
+        private int _temperature;
         private string _time;
         private string _place;
 
-        public Temperature()
+        public MTemperature()
         {
 
         }
@@ -30,11 +33,19 @@ namespace WeatherRest.model
         /// <param name="temperature"></param>
         /// <param name="time"></param>
         /// <param name="place"></param>
-        public Temperature(string temperature, string time, string place)
+        public MTemperature(int temperature, string time, string place)
         {
             _temperature = temperature;
             _time = time;
             _place = place;
+        }
+
+        public MTemperature(int temperature, string time, string place, int id)
+        {
+            _temperature = temperature;
+            _time = time;
+            _place = place;
+            _id = id;
         }
 
         /// <summary>
@@ -43,7 +54,12 @@ namespace WeatherRest.model
         /// Time = The time the temperature was measured
         /// Place = The location from where the measurement took place.
         /// </summary>
-        public string MTemperature
+        public int ID
+        {
+            get => _id;
+            set => _id = value;
+        }
+        public int Temperature
         {
             get => _temperature;
             set => _temperature = value;
