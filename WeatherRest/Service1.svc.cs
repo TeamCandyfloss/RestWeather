@@ -132,5 +132,19 @@ namespace WeatherRest
                 }
             }
         }
+
+        public MTemperature GetCurrentTemperature()
+        {
+            string sqlQuery = "SELECT * FROM Temperature";
+
+            using (IDbConnection connection = new SqlConnection(_connectionString))
+            {
+                var temperatureList = connection.Query<MTemperature>(sqlQuery).ToList();
+
+                var currentTemp = temperatureList.Count - 1;
+
+                return temperatureList[currentTemp];
+            }
+        }
     }
 }
