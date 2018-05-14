@@ -19,6 +19,7 @@ namespace WeatherRest
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service1 : IService1
     {
+        private static string _place = "default";
 
         private string _connectionString = "Server=tcp:3semesterxxx.database.windows.net,1433;Initial Catalog=WCFSTUDENT;Persist Security Info=False;User ID=Admeme;Password=Skole123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
@@ -82,6 +83,49 @@ namespace WeatherRest
                 return true;
             }
 
+        }
+
+        public bool AddTemperatureWithPlace(string temp)
+        {
+            var time = DateTime.Now.ToShortTimeString();
+            var place = _place;
+
+            if (place == null || time == null || temp == null)
+            {
+                throw new ArgumentException("Du kan ikke indsætte en Null værdi");
+            }
+
+            var _connectionString = "Server=tcp:3semesterxxx.database.windows.net,1433;Initial Catalog=WCFSTUDENT;Persist Security Info=False;User ID=Admeme;Password=Skole123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var sqlQuery =
+                    "INSERT INTO Temperature (Temperature, Time, Place) VALUES (@Temperature, @Time, @Place)";
+
+                using (var command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Temperature", temp);
+                    command.Parameters.AddWithValue("@Time", time);
+                    command.Parameters.AddWithValue("@Place", place);
+
+                    connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    if (result == 0)
+                    {
+                        throw new ArgumentException("Nothing has been added to the Database");
+                    }
+
+                    return true;
+
+                    // tjekker for fejl i indsættelsen skriver hvis der er fejl
+                }
+            }
+        }
+
+        public void SetPlace(string place)
+        {
+            _place = place;
         }
 
         public bool DeleteTemperature(MTemperature temp)

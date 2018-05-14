@@ -39,6 +39,10 @@ namespace WeatherRest.model
             _time = time;
             _place = place;
         }
+        public MTemperature(int temperature)
+        {
+            _temperature = temperature;
+        }
 
         public MTemperature(int temperature, string time, string place, int id)
         {
