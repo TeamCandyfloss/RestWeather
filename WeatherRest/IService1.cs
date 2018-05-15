@@ -43,7 +43,7 @@ namespace WeatherRest
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "temperatures/specifics/{date}")]
+            UriTemplate = "temperatures/specificdate/{date}")]
         List<MTemperature> GetSpecificTemperatureByDate(string date);
 
         /// <summary>
