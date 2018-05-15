@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -50,11 +51,11 @@ namespace WeatherRest
         bool AddTemperature(MTemperature temp);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "temperatures/postTemp")]
-        bool AddTemperatureWithPlace(string temp);
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "temperatures/postTemp")]
+        bool SetTemp(string temp);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "temperatures/postPlace")]
+        [WebInvoke(Method = "POST",RequestFormat = WebMessageFormat.Json ,ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "temperatures/postPlace")]
         void SetPlace(string place);
 
         /// <summary>
