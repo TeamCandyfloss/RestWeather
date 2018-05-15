@@ -60,6 +60,18 @@ namespace WeatherRest
             }
         }
 
+        public List<MTemperature> GetSpecificTemperatureByDate(string date)
+        {
+            string sqlQuery = $"SELECT * FROM Temperature WHERE Date='{date}'";
+
+            using (IDbConnection connection = new SqlConnection(_connectionString))
+            {
+                var tempList = connection.Query<MTemperature>(sqlQuery).ToList();
+
+                return tempList;
+            }
+        }
+
         public bool AddTemperature(MTemperature temp)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
