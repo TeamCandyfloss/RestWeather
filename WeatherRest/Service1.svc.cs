@@ -89,6 +89,8 @@ namespace WeatherRest
         public bool SetTemp(string temp)
         {
             var time = DateTime.Now.ToShortTimeString();
+            var date = DateTime.Today;
+            date.ToShortDateString();
             
 
             if (_place == null || time == null || temp == null)
@@ -102,13 +104,14 @@ namespace WeatherRest
             using (var connection = new SqlConnection(_connectionString))
             {
                 var sqlQuery =
-                    "INSERT INTO Temperature (Temperature, Time, Place) VALUES (@Temperature, @Time, @Place)";
+                    "INSERT INTO Temperature (Temperature, Time, Place, Date) VALUES (@Temperature, @Time, @Place, @Date)";
 
                 using (var command = new SqlCommand(sqlQuery, connection))
                 {
                     command.Parameters.AddWithValue("@Temperature", temp);
                     command.Parameters.AddWithValue("@Time", time);
                     command.Parameters.AddWithValue("@Place", _place);
+                    command.Parameters.AddWithValue("@Date", date);
 
                     connection.Open();
                     var result = command.ExecuteNonQuery();
