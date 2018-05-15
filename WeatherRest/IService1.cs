@@ -41,6 +41,11 @@ namespace WeatherRest
             UriTemplate = "temperatures/specifics/{place}")]
         List<MTemperature> GetSpecificTemperatures(string place);
 
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "temperatures/specifics/{date}")]
+        List<MTemperature> GetSpecificTemperatureByDate(string date);
+
         /// <summary>
         /// Adds a temperature with the parameters given.
         /// </summary>
