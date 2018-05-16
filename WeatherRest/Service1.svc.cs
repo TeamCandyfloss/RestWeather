@@ -101,9 +101,18 @@ namespace WeatherRest
         public bool SetTemp(string temp)
         {
             var time = DateTime.Now.ToShortTimeString();
-            var date = DateTime.Today;
-            date.ToShortDateString();
-            
+
+            DateTime dt = DateTime.Now;
+            var currentDate = dt.ToString("MM dd yyyy");
+
+            string[] values = currentDate.Split();
+
+            string month = values[0];
+            string day = values[1];
+            string year = values[2];
+
+            var date = month + "-" + day + "-" + year;
+
 
             if (_place == null || time == null || temp == null)
             {
