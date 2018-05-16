@@ -111,7 +111,7 @@ namespace WeatherRest
             string day = values[1];
             string year = values[2];
 
-            var date = month + "/" + day + "/" + year;
+            var date = month + "-" + day + "-" + year;
 
 
             if (_place == null || time == null || temp == null)
