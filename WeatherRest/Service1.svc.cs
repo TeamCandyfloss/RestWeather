@@ -139,9 +139,9 @@ namespace WeatherRest
             }
         }
 
-        public void SetPlace(string place)
+        public void SetPlace(mPlace place)
         {
-            _place = place;
+            _place = place.Place;
         }
 
         public bool DeleteTemperature(MTemperature temp)

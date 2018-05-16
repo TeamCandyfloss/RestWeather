@@ -61,7 +61,7 @@ namespace WeatherRest
 
         [OperationContract]
         [WebInvoke(Method = "POST",RequestFormat = WebMessageFormat.Json ,ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "temperatures/postPlace")]
-        void SetPlace(string place);
+        void SetPlace(mPlace place);
 
         /// <summary>
         /// Delete a temperature.
