@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -40,6 +41,11 @@ namespace WeatherRest
             UriTemplate = "temperatures/specifics/{place}")]
         List<MTemperature> GetSpecificTemperatures(string place);
 
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "temperatures/specificdate/{date}")]
+        List<MTemperature> GetSpecificTemperatureByDate(string date);
+
         /// <summary>
         /// Adds a temperature with the parameters given.
         /// </summary>
@@ -48,6 +54,14 @@ namespace WeatherRest
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json,BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "temperatures/")]
         bool AddTemperature(MTemperature temp);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "temperatures/postTemp")]
+        bool SetTemp(string temp);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",RequestFormat = WebMessageFormat.Json ,ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "temperatures/postPlace")]
+        void SetPlace(mPlace place);
 
         /// <summary>
         /// Delete a temperature.

@@ -14,12 +14,14 @@ namespace WeatherRest.model
         /// Temperature = Measured temperature from the raspberry Pi
         /// Time = The time the temperature was measured
         /// Place = The location from where the measurement took place.
+        /// Date = the date at which the measurement eas taken.
         /// </summary>
         /// 
         private int _id;
         private int _temperature;
         private string _time;
         private string _place;
+        private string _date;
 
         public MTemperature()
         {
@@ -33,19 +35,25 @@ namespace WeatherRest.model
         /// <param name="temperature"></param>
         /// <param name="time"></param>
         /// <param name="place"></param>
-        public MTemperature(int temperature, string time, string place)
+        public MTemperature(int temperature, string time, string place, string date)
         {
             _temperature = temperature;
             _time = time;
             _place = place;
+            _date = date;
+        }
+        public MTemperature(int temperature)
+        {
+            _temperature = temperature;
         }
 
-        public MTemperature(int temperature, string time, string place, int id)
+        public MTemperature(int temperature, string time, string place, int id, string date)
         {
             _temperature = temperature;
             _time = time;
             _place = place;
             _id = id;
+            _date = date;
         }
 
         /// <summary>
@@ -73,6 +81,12 @@ namespace WeatherRest.model
         {
             get => _place;
             set => _place = value;
+        }
+
+        public string Date
+        {
+            get => _date;
+            set => _date = value;
         }
     }
 }

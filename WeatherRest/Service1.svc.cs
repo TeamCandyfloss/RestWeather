@@ -19,6 +19,8 @@ namespace WeatherRest
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service1 : IService1
     {
+        private static string _place; 
+           
 
         private string _connectionString = "Server=tcp:3semesterxxx.database.windows.net,1433;Initial Catalog=WCFSTUDENT;Persist Security Info=False;User ID=Admeme;Password=Skole123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
@@ -58,6 +60,18 @@ namespace WeatherRest
             }
         }
 
+        public List<MTemperature> GetSpecificTemperatureByDate(string date)
+        {
+            string sqlQuery = $"SELECT * FROM Temperature WHERE Date='{date}'";
+
+            using (IDbConnection connection = new SqlConnection(_connectionString))
+            {
+                var tempList = connection.Query<MTemperature>(sqlQuery).ToList();
+
+                return tempList;
+            }
+        }
+
         public bool AddTemperature(MTemperature temp)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -82,6 +96,61 @@ namespace WeatherRest
                 return true;
             }
 
+        }
+
+        public bool SetTemp(string temp)
+        {
+            var time = DateTime.Now.ToShortTimeString();
+
+            DateTime dt = DateTime.Now;
+            var currentDate = dt.ToString("MM dd yyyy");
+
+            string[] values = currentDate.Split();
+
+            string month = values[0];
+            string day = values[1];
+            string year = values[2];
+
+            var date = month + "-" + day + "-" + year;
+
+
+            if (_place == null || time == null || temp == null)
+            {
+                throw new ArgumentException("Du kan ikke indsætte en Null værdi");
+            }
+
+            var _connectionString = "Server=tcp:3semesterxxx.database.windows.net,1433;Initial Catalog=WCFSTUDENT;Persist Security Info=False;User ID=Admeme;Password=Skole123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var sqlQuery =
+                    "INSERT INTO Temperature (Temperature, Time, Place, Date) VALUES (@Temperature, @Time, @Place, @Date)";
+
+                using (var command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Temperature", temp);
+                    command.Parameters.AddWithValue("@Time", time);
+                    command.Parameters.AddWithValue("@Place", _place);
+                    command.Parameters.AddWithValue("@Date", date);
+
+                    connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    if (result == 0)
+                    {
+                        throw new ArgumentException("Nothing has been added to the Database");
+                    }
+
+                    return true;
+
+                    // tjekker for fejl i indsættelsen skriver hvis der er fejl
+                }
+            }
+        }
+
+        public void SetPlace(mPlace place)
+        {
+            _place = place.Place;
         }
 
         public bool DeleteTemperature(MTemperature temp)
